@@ -106,11 +106,16 @@ document.addEventListener('DOMContentLoaded', () => {
         zoomLens.style.left = lensX + 'px';
         zoomLens.style.top = lensY + 'px';
 
-        // Move background in the result pane based on ratio
-        let ratioX = zoomResult.offsetWidth / zoomLens.offsetWidth;
-        let ratioY = zoomResult.offsetHeight / zoomLens.offsetHeight;
+        // 4. Calculate Zoom Ratio
+        // We want to see how many times the lens fits into the result window
+        const cx = zoomResult.offsetWidth / zoomLens.offsetWidth;
+        const cy = zoomResult.offsetHeight / zoomLens.offsetHeight;
 
-        zoomResult.style.backgroundSize = `${imgRect.width * ratioX}px ${imgRect.height * ratioY}px`;
-        zoomResult.style.backgroundPosition = `-${lensX * ratioX}px -${lensY * ratioY}px`;
+        // 5. Apply the zoom effect to the result background
+        // Scale the background image to match the ratio relative to the original image size
+        zoomResult.style.backgroundSize = (imgRect.width * cx) + "px " + (imgRect.height * cy) + "px";
+
+        // Offset the background so it shows the part under the lens
+        zoomResult.style.backgroundPosition = "-" + (lensX * cx) + "px -" + (lensY * cy) + "px";
     }
 });
